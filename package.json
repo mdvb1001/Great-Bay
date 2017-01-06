@@ -1,0 +1,15 @@
+{
+  "name": "great-bay",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app_js.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "inquirer": "^2.0.0",
+    "mysql": "^2.12.0"
+  }
+}
