@@ -60,47 +60,47 @@ function addItem() {
 }
 
 function bidItem() {
-    var promise = new Promise(function(resolve, reject) {
-        connection.query("SELECT * FROM items", function(err, res) {
+    var promise = new Promise(function (resolve, reject) {
+        connection.query("SELECT * FROM items", function (err, res) {
             if (err) reject(err);
             var itemArray = res;
             resolve(itemArray);
         });
     });
-    promise.then(function(itemArray) {
+    promise.then(function (itemArray) {
         inquirer.prompt([{
             type: 'list',
             name: 'maxWasRight',
-            choices: itemArray.map(function(item) {
+            choices: itemArray.map(function (item) {
                 var retItem = {};
                 retItem.name = item.name;
                 retItem.value = itemArray.indexOf(item);
                 return retItem;
             }),
             message: 'What do you want?'
-        },{
+        }, {
             type: 'input',
             name: 'bid',
             message: 'How much?'
-        }]).then(function(answer) {
+        }]).then(function (answer) {
             var origPrice = itemArray[answer.maxWasRight].price;
             var itemName = itemArray[answer.maxWasRight].name;
             if (answer.bid > origPrice) {
                 console.log('You won the item');
-                var newPromise = new Promise(function(resolve, reject) {
+                var newPromise = new Promise(function (resolve, reject) {
                     connection.query("UPDATE items SET ? WHERE ?", [{
-                      price: answer.bid
+                        price: answer.bid
                     }, {
-                      name: itemName
-                    }], function(err, res) {
-                      if (err) reject(err);
-                      var result = res;
-                      resolve(result);
+                        name: itemName
+                    }], function (err, res) {
+                        if (err) reject(err);
+                        var result = res;
+                        resolve(result);
                     });
                 });
-                newPromise.then(function(result) {
+                newPromise.then(function (result) {
                     startPrompt();
-                }, function(err) {
+                }, function (err) {
                     console.log(err);
                 });
             } else {
@@ -108,9 +108,8 @@ function bidItem() {
                 bidItem();
             }
         });
-    }, function(err) {
+    }, function (err) {
         console.log(err);
     });
 }
-
 startPrompt();
